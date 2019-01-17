@@ -1,0 +1,19 @@
+---
+- vyos_config:
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
+    save: yes
+  vars:
+    ansible_user: vyos
+    ansible_ssh_pass: vyos
+    ansible_port: 8022
+    ansible_network_os: vyos
+
+- name: Sync config to disk
+  vyos_command:
+    commands:
+      - sync
+  vars:
+    ansible_user: vyos
+    ansible_ssh_pass: vyos
+    ansible_port: 8022
+    ansible_network_os: vyos

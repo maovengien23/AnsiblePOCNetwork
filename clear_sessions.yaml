@@ -1,0 +1,14 @@
+---
+- name: initialize function
+  include_tasks: includes/init.yaml
+
+- name: get all configured sessions
+  eos_command:
+    commands: "show configuration sessions | json"
+  register: output
+
+- name: clear the configuration session
+  eos_command:
+    commands: "no configure session {{ item.key }}"
+  with_dict: "{{ output.stdout.0.sessions }}"
+  when: output.stdout.0.sessions
